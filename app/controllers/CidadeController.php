@@ -24,10 +24,22 @@ class CidadeController
     // Cria e salva uma nova cidade
     public function store()
     {
-        $cidade = new Cidade("Campinas", "SP");
+        $nome = $_POST['nome'];
+        $estado = $_POST['estado'];
 
-        $this->repository->salvar($cidade);
-
-        echo "Cidade salva com sucesso!";
+        try{
+            $cidade=new Cidade($nome, $estado);
+            $this->repository->salvar($cidade);
+            header("Location: index.php?sucesso=1");
+            exit;
+        }catch(Exception $e){
+            echo "Erro: ". $e->getMessage();
+        }
     }
+
+    public function create(){
+        require __DIR__ . '/../views/cidades/create.php';
+    }
+
+
 }
